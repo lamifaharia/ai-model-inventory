@@ -5,6 +5,7 @@ import { auth } from '../firebase.config';
 import { signOut } from 'firebase/auth';
 import { Sun, Moon, LogOut, Plus } from 'lucide-react'; 
 import toast from 'react-hot-toast';
+import Profile from '../assets/Profile.png'
 
 const Navbar = () => {
   const { user } = useAuth();
@@ -32,7 +33,7 @@ const Navbar = () => {
     <nav className="bg-white/90 dark:bg-gray-900/90 backdrop-blur-lg border-b border-gray-200 dark:border-gray-800 sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-8 py-5 flex justify-between items-center">
         <Link to="/" className="flex items-center gap-3">
-          <div className="w-9 h-9 bg-liner-to-br from-blue-600 to-purple-600 rounded-2xl flex items-center justify-center">
+          <div className="w-9 h-9 bg-linear-to-br from-blue-600 to-purple-600 rounded-2xl flex items-center justify-center">
             <span className="text-white font-bold text-2xl">AI</span>
           </div>
           <span className="text-3xl font-bold bg-liner-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
@@ -61,8 +62,11 @@ const Navbar = () => {
           {user ? (
             <div className="relative">
               <img
-                src={user.photoURL || 'https://via.placeholder.com/45'}
-                alt="Profile"
+src={
+  user?.photoURL && !user.photoURL.includes('placeholder.com') 
+    ? user.photoURL 
+    : Profile
+}                alt="avatar"
                 className="w-11 h-11 rounded-2xl cursor-pointer ring-2 ring-blue-500 hover:ring-blue-600 transition"
                 onClick={() => setShowDropdown(!showDropdown)}
               />

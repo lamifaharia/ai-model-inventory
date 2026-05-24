@@ -1,9 +1,9 @@
-// Simulating data or importing your Model schema at the top
-// const Model = require('../models/Models'); 
+const Model = require('../models/Models'); 
 
 const getAllModels = async (req, res) => {
   try {
-    res.json({ message: "Get all models route working" });
+    const models = await Model.find({});
+    res.status(200).json(models);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -11,7 +11,11 @@ const getAllModels = async (req, res) => {
 
 const getModelById = async (req, res) => {
   try {
-    res.json({ message: "Get model by ID route working" });
+    const model = await Model.findById(req.params.id);
+    if (!model) {
+      return res.status(404).json({ message: "Model not found" });
+    }
+    res.status(200).json(model);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -19,7 +23,22 @@ const getModelById = async (req, res) => {
 
 const addModel = async (req, res) => {
   try {
-    res.json({ message: "Add model route working" });
+    const { name, framework, useCase, dataset, description } = req.body;
+    
+    const imageUrl = req.file ? req.file.path : "";
+
+    const newModel = new Model({
+      name,
+      framework,
+      useCase,
+      dataset,
+      description,
+      image: imageUrl, 
+      purchased: 0
+    });
+
+    await newModel.save();
+    res.status(201).json(newModel);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -27,7 +46,23 @@ const addModel = async (req, res) => {
 
 const updateModel = async (req, res) => {
   try {
-    res.json({ message: "Update model route working" });
+    const { name, framework, useCase, dataset, description } = req.body;
+    let updateFields = { name, framework, useCase, dataset, description };
+
+    if (req.file) {
+      updateFields.image = req.file.path;
+    }
+
+    const updatedModel = await Model.findByIdAndUpdate(
+      req.params.id,
+      updateFields,
+      { new: true } 
+    );
+
+    if (!updatedModel) {
+      return res.status(404).json({ message: "Model not found to update" });
+    }
+    res.status(200).json(updatedModel);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -35,7 +70,11 @@ const updateModel = async (req, res) => {
 
 const deleteModel = async (req, res) => {
   try {
-    res.json({ message: "Delete model route working" });
+    const deletedModel = await Model.findByIdAndDelete(req.params.id);
+    if (!deletedModel) {
+      return res.status(404).json({ message: "Model not found to delete" });
+    }
+    res.status(200).json({ message: "Model deleted successfully!" });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -43,7 +82,15 @@ const deleteModel = async (req, res) => {
 
 const purchaseModel = async (req, res) => {
   try {
-    res.json({ message: "Purchase model route working" });
+    const model = await Model.findById(req.params.id);
+    if (!model) {
+      return res.status(404).json({ message: "Model not found" });
+    }
+    
+    model.purchased = (model.purchased || 0) + 1;
+    await model.save();
+
+    res.status(200).json({ message: "Model purchased successfully!", model });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -51,13 +98,13 @@ const purchaseModel = async (req, res) => {
 
 const getMyModels = async (req, res) => {
   try {
-    res.json({ message: "Get my models route working" });
+    const models = await Model.find({});
+    res.status(200).json(models);
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 };
 
-// Explicitly export using CommonJS module.exports so modelRoutes.js can require it safely
 module.exports = {
   getAllModels,
   getModelById,

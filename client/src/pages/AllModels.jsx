@@ -2,6 +2,10 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import ModelCard from '../components/ModelCard';
 import LoadingSpinner from '../components/LoadingSpinner';
+import Bert from '../assets/Bert.png';
+import Diffusion from '../assets/Diffusion.png';
+import Llama3 from '../assets/Llama 3.png';
+import YoloClean from '../assets/YOLO-clean.png';
 
 const AllModels = () => {
   const [models, setModels] = useState([]);
@@ -18,7 +22,7 @@ const AllModels = () => {
         useCase: "NLP", 
         dataset: "Wikipedia", 
         description: "Bidirectional Encoder Representations from Transformers - State of the art language understanding model.",
-        image: "", 
+        image: Bert, 
         purchased: 45
       },
       {
@@ -28,7 +32,7 @@ const AllModels = () => {
         useCase: "Computer Vision", 
         dataset: "LAION-5B", 
         description: "Powerful text-to-image generation model used in creative industries.",
-        image: "", 
+        image: Diffusion, 
         purchased: 128
       },
       {
@@ -38,7 +42,7 @@ const AllModels = () => {
         useCase: "NLP", 
         dataset: "Custom", 
         description: "Meta's latest open-source large language model with exceptional performance.",
-        image: "", 
+        image: Llama3, 
         purchased: 87
       },
       {
@@ -48,7 +52,7 @@ const AllModels = () => {
         useCase: "Computer Vision", 
         dataset: "COCO", 
         description: "Real-time object detection model with high accuracy.",
-        image: "", 
+        image: YoloClean, 
         purchased: 62
       }
     ];
@@ -60,7 +64,16 @@ const AllModels = () => {
           : (res.data.models || res.data.data || []);
 
         if (fetchedData.length > 0) {
-          setModels(fetchedData);
+          const enrichedData = fetchedData.map(model => {
+            if (!model.image) {
+              if (model.name.toLowerCase().includes('bert')) return { ...model, image: Bert };
+              if (model.name.toLowerCase().includes('diffusion')) return { ...model, image: Diffusion };
+              if (model.name.toLowerCase().includes('llama')) return { ...model, image: Llama3 };
+              if (model.name.toLowerCase().includes('yolo')) return { ...model, image: YoloClean };
+            }
+            return model;
+          });
+          setModels(enrichedData);
         } else {
           setModels(sampleModels);
         }
