@@ -23,7 +23,7 @@ const Navbar = () => {
       toast.success('Logged out successfully');
       navigate('/');
     } catch (error) {
-      console.error(error); // Logs the error details and clears the ESLint squiggle
+      console.error(error); 
       toast.error('Logout failed');
     }
   };
