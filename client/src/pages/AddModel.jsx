@@ -26,7 +26,7 @@ const AddModel = () => {
 
     try {
       const res = await axios.post(
-        'https://api.imgbb.com/1/upload?key=YOUR_IMGBB_API_KEY',
+        'https://api.imgbb.com/1/upload?key=26cca5266a8b84c9fc6cab6cebb19603',
         form
       );
       setImage(res.data.data.url);
@@ -59,81 +59,81 @@ const AddModel = () => {
   };
 
   return (
-    <div className="max-w-2xl mx-auto px-6 py-16">
+    <div className="max-w-2xl mx-auto px-6 py-16 text-gray-900 dark:text-white">
       <h1 className="text-5xl font-bold text-center mb-12">Add New AI Model</h1>
       
-      <form onSubmit={handleSubmit} className="space-y-8 bg-white dark:bg-gray-800 p-8 rounded-xl shadow-lg">
+      <form onSubmit={handleSubmit} className="space-y-8 bg-white dark:bg-gray-800 p-8 rounded-xl shadow-lg border border-gray-100 dark:border-gray-700">
         <div>
-          <label className="block text-sm font-medium mb-2">Model Name</label>
+          <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">Model Name</label>
           <input
             type="text"
             placeholder="Model Name"
             required
             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-            className="w-full p-3 border rounded-lg dark:bg-gray-700 dark:border-gray-600"
+            className="w-full p-3 border rounded-lg bg-gray-50 dark:bg-gray-700 border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium mb-2">Framework</label>
+          <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">Framework</label>
           <input
             type="text"
             placeholder="Framework (TensorFlow, PyTorch...)"
             required
             onChange={(e) => setFormData({ ...formData, framework: e.target.value })}
-            className="w-full p-3 border rounded-lg dark:bg-gray-700 dark:border-gray-600"
+            className="w-full p-3 border rounded-lg bg-gray-50 dark:bg-gray-700 border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium mb-2">Use Case</label>
+          <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">Use Case</label>
           <input
             type="text"
             placeholder="Use Case (NLP, Computer Vision...)"
             required
             onChange={(e) => setFormData({ ...formData, useCase: e.target.value })}
-            className="w-full p-3 border rounded-lg dark:bg-gray-700 dark:border-gray-600"
+            className="w-full p-3 border rounded-lg bg-gray-50 dark:bg-gray-700 border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium mb-2">Dataset Information</label>
+          <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">Dataset Information</label>
           <input
             type="text"
             placeholder="Dataset Used"
             required
             onChange={(e) => setFormData({ ...formData, dataset: e.target.value })}
-            className="w-full p-3 border rounded-lg dark:bg-gray-700 dark:border-gray-600"
+            className="w-full p-3 border rounded-lg bg-gray-50 dark:bg-gray-700 border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium mb-2">Description</label>
+          <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">Description</label>
           <textarea
             placeholder="Model Description..."
             required
             rows="4"
             onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-            className="w-full p-3 border rounded-lg dark:bg-gray-700 dark:border-gray-600"
+            className="w-full p-3 border rounded-lg bg-gray-50 dark:bg-gray-700 border-gray-300 dark:border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium mb-2">Model Image</label>
+          <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">Model Image</label>
           <input
             type="file"
             accept="image/*"
             required
             onChange={handleImageUpload}
-            className="w-full text-sm file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+            className="w-full text-sm text-gray-500 dark:text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 dark:file:bg-gray-700 file:text-blue-700 dark:file:text-blue-400 hover:file:bg-blue-100 dark:hover:file:bg-gray-600 cursor-pointer"
           />
-          {image && <img src={image} alt="Preview" className="mt-4 w-32 h-32 object-cover rounded-lg border" />}
+          {image && <img src={image} alt="Preview" className="mt-4 w-32 h-32 object-cover rounded-lg border border-gray-300 dark:border-gray-600" />}
         </div>
 
         <button
           type="submit"
           disabled={loading}
-          className="w-full bg-blue-600 text-white p-3 rounded-lg font-semibold hover:bg-blue-700 disabled:bg-gray-400"
+          className="w-full bg-blue-600 text-white p-3 rounded-lg font-semibold hover:bg-blue-700 disabled:bg-gray-400 transition-colors"
         >
           {loading ? 'Adding Model...' : 'Add Model'}
         </button>
