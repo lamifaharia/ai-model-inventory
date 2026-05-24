@@ -10,43 +10,69 @@ const AllModels = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const sampleModels = [
+      {
+        _id: "1", 
+        name: "BERT", 
+        framework: "TensorFlow", 
+        useCase: "NLP", 
+        dataset: "Wikipedia", 
+        description: "Bidirectional Encoder Representations from Transformers - State of the art language understanding model.",
+        image: "", 
+        purchased: 45
+      },
+      {
+        _id: "2", 
+        name: "Stable Diffusion", 
+        framework: "PyTorch", 
+        useCase: "Computer Vision", 
+        dataset: "LAION-5B", 
+        description: "Powerful text-to-image generation model used in creative industries.",
+        image: "", 
+        purchased: 128
+      },
+      {
+        _id: "3", 
+        name: "Llama 3", 
+        framework: "PyTorch", 
+        useCase: "NLP", 
+        dataset: "Custom", 
+        description: "Meta's latest open-source large language model with exceptional performance.",
+        image: "", 
+        purchased: 87
+      },
+      {
+        _id: "4", 
+        name: "YOLOv8", 
+        framework: "PyTorch", 
+        useCase: "Computer Vision", 
+        dataset: "COCO", 
+        description: "Real-time object detection model with high accuracy.",
+        image: "", 
+        purchased: 62
+      }
+    ];
+
     axios.get('http://localhost:5000/api/models')
       .then(res => {
-        setModels(res.data);
+        const fetchedData = Array.isArray(res.data) 
+          ? res.data 
+          : (res.data.models || res.data.data || []);
+
+        if (fetchedData.length > 0) {
+          setModels(fetchedData);
+        } else {
+          setModels(sampleModels);
+        }
         setLoading(false);
       })
       .catch((err) => {
-        console.error(err); // Safely keeps ESLint happy
-        // Fallback sample data for better demo
-        const sampleModels = [
-          {
-            _id: "1", name: "BERT", framework: "TensorFlow", useCase: "NLP", 
-            dataset: "Wikipedia", description: "Bidirectional Encoder Representations from Transformers - State of the art language understanding model.",
-            image: "", purchased: 45
-          },
-          {
-            _id: "2", name: "Stable Diffusion", framework: "PyTorch", useCase: "Computer Vision", 
-            dataset: "LAION-5B", description: "Powerful text-to-image generation model used in creative industries.",
-            image: "", purchased: 128
-          },
-          {
-            _id: "3", name: "Llama 3", framework: "PyTorch", useCase: "NLP", 
-            dataset: "Custom", description: "Meta's latest open-source large language model with exceptional performance.",
-            image: "", purchased: 87
-          },
-          {
-            _id: "4", name: "YOLOv8", framework: "PyTorch", useCase: "Computer Vision", 
-            dataset: "COCO", description: "Real-time object detection model with high accuracy.",
-            image: "", purchased: 62
-          }
-        ];
+        console.error("Backend unreachable, keeping sample items active:", err);
         setModels(sampleModels);
         setLoading(false);
       });
   }, []);
 
-  // Calculates the filtered results directly on-the-fly during render!
-  // This eliminates the cascading state hook warning completely.
   const filteredModels = models.filter(model => {
     const matchesSearch = model.name.toLowerCase().includes(search.toLowerCase());
     const matchesFramework = frameworkFilter ? model.framework === frameworkFilter : true;

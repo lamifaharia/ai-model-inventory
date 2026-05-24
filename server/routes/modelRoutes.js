@@ -10,11 +10,8 @@ const {
   getMyModels
 } = require('../controllers/modelController');
 
-// Static routes first
 router.get('/', getAllModels);
 router.get('/my-models', getMyModels);
-
-// Dynamic routes last
 router.get('/:id', getModelById);
 router.post('/', addModel);
 router.put('/:id', updateModel);
