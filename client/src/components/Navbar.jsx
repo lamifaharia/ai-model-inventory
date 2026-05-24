@@ -89,7 +89,7 @@ const Navbar = () => {
           ) : (
             <Link 
               to="/login" 
-              className="bg-liner-to-r from-blue-600 to-indigo-600 text-white px-8 py-3.5 rounded-2xl font-semibold hover:brightness-110 transition"
+              className="bg-linear-to-r from-blue-600 to-indigo-600 text-white px-8 py-3.5 rounded-2xl font-semibold hover:brightness-110 transition"
             >
               Login
             </Link>
