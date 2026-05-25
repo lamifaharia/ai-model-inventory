@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import axios from 'axios';
+import api from '../api'; 
 import { useAuth } from '../context/AuthContext';
 import ModelCard from '../components/ModelCard';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -13,7 +13,7 @@ const MyPurchases = () => {
   useEffect(() => {
     if (!user?.email) return;
 
-    axios.get(`http://localhost:5000/api/models/my-purchases?email=${user.email}`)
+    api.get(`/api/models/my-purchases?email=${user.email}`)
       .then(res => {
         setPurchasedModels(res.data);
         setLoading(false);

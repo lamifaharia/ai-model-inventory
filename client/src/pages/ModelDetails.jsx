@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import axios from 'axios';
+import api from '../api'; 
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import toast from 'react-hot-toast';
@@ -13,7 +13,7 @@ const ModelDetails = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios.get(`http://localhost:5000/api/models/${id}`)
+    api.get(`/api/models/${id}`)
       .then(res => {
         setModel(res.data);
         setLoading(false);
@@ -26,7 +26,7 @@ const ModelDetails = () => {
 
   const handlePurchase = async () => {
     try {
-      await axios.post(`http://localhost:5000/api/models/${id}/purchase`, { email: user.email });
+      await api.post(`/api/models/${id}/purchase`, { email: user.email });
       toast.success('Purchase successful!');
     } catch (err) {
       console.error('Purchase error:', err);
@@ -37,7 +37,7 @@ const ModelDetails = () => {
   const handleDelete = async () => {
     if (!window.confirm('Are you sure you want to delete this model?')) return;
     try {
-      await axios.delete(`http://localhost:5000/api/models/${id}`);
+      await api.delete(`/api/models/${id}`);
       toast.success('Model deleted successfully');
       navigate('/models');
     } catch (err) {
@@ -53,7 +53,6 @@ const ModelDetails = () => {
 
   return (
     <div className="max-w-6xl mx-auto px-6 py-16">
-      {/* Your existing JSX structure remains here */}
       <h1 className="text-5xl font-bold mb-6">{model.name}</h1>
       <p className="text-xl text-gray-600 dark:text-gray-400 mb-8">{model.description}</p>
       

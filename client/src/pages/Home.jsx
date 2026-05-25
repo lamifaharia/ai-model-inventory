@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import axios from 'axios';
+import api from '../api'; 
 import ModelCard from '../components/ModelCard';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { Link } from 'react-router-dom';
@@ -10,7 +10,7 @@ const Home = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axios.get('http://localhost:5000/api/models')
+    api.get('/api/models')
       .then(res => {
         setFeatured(res.data.slice(0, 6));
         setLoading(false);
@@ -22,7 +22,6 @@ const Home = () => {
     <div className="bg-white dark:bg-gray-950 transition-colors duration-300">
       {/* Hero Section */}
       <div className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-gray-950">
-        {/* Abstract Background Effect */}
         <div className="absolute inset-0 bg-[radial-gradient(at_center,#4f46e520_0%,transparent_70%)] opacity-50"></div>
         
         <div className="relative z-10 text-center px-6 max-w-5xl mx-auto space-y-8">
@@ -77,7 +76,6 @@ const Home = () => {
         )}
       </div>
 
-      {/* About Section (Glassmorphism Effect) */}
       <div className="bg-gray-100 dark:bg-gray-900/50 py-24 border-y border-gray-200 dark:border-gray-800">
         <div className="max-w-4xl mx-auto px-6 text-center space-y-6">
           <h2 className="text-5xl font-extrabold tracking-tight">Powering the Next Generation</h2>

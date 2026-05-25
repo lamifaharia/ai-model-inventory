@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
+// CHANGED: Import your 'api' messenger
+import api from '../api'; 
 import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import toast from 'react-hot-toast';
 import LoadingSpinner from '../components/LoadingSpinner';
 
@@ -13,7 +14,8 @@ const UpdateModel = () => {
   });
 
   useEffect(() => {
-    axios.get(`http://localhost:5000/api/models/${id}`)
+    // CHANGED: Use the 'api' messenger
+    api.get(`/api/models/${id}`)
       .then(res => {
         setFormData(res.data);
         setLoading(false);
@@ -27,7 +29,8 @@ const UpdateModel = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.put(`http://localhost:5000/api/models/${id}`, formData);
+      // CHANGED: Use the 'api' messenger for the PUT request
+      await api.put(`/api/models/${id}`, formData);
       toast.success('✅ Model updated successfully!');
       navigate(`/models/${id}`);
     } catch (err) {

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import axios from 'axios';
+import api from '../api'; 
 import ModelCard from '../components/ModelCard';
 import LoadingSpinner from '../components/LoadingSpinner';
 import Bert from '../assets/Bert.png';
@@ -15,49 +15,13 @@ const AllModels = () => {
 
   useEffect(() => {
     const sampleModels = [
-      {
-        _id: "1", 
-        name: "BERT", 
-        framework: "TensorFlow", 
-        useCase: "NLP", 
-        dataset: "Wikipedia", 
-        description: "Bidirectional Encoder Representations from Transformers - State of the art language understanding model.",
-        image: Bert, 
-        purchased: 45
-      },
-      {
-        _id: "2", 
-        name: "Stable Diffusion", 
-        framework: "PyTorch", 
-        useCase: "Computer Vision", 
-        dataset: "LAION-5B", 
-        description: "Powerful text-to-image generation model used in creative industries.",
-        image: Diffusion, 
-        purchased: 128
-      },
-      {
-        _id: "3", 
-        name: "Llama 3", 
-        framework: "PyTorch", 
-        useCase: "NLP", 
-        dataset: "Custom", 
-        description: "Meta's latest open-source large language model with exceptional performance.",
-        image: Llama3, 
-        purchased: 87
-      },
-      {
-        _id: "4", 
-        name: "YOLOv8", 
-        framework: "PyTorch", 
-        useCase: "Computer Vision", 
-        dataset: "COCO", 
-        description: "Real-time object detection model with high accuracy.",
-        image: YoloClean, 
-        purchased: 62
-      }
+      { _id: "1", name: "BERT", framework: "TensorFlow", useCase: "NLP", dataset: "Wikipedia", description: "State of the art language model.", image: Bert, purchased: 45 },
+      { _id: "2", name: "Stable Diffusion", framework: "PyTorch", useCase: "Computer Vision", dataset: "LAION-5B", description: "Powerful text-to-image generation.", image: Diffusion, purchased: 128 },
+      { _id: "3", name: "Llama 3", framework: "PyTorch", useCase: "NLP", dataset: "Custom", description: "Meta's latest open-source LLM.", image: Llama3, purchased: 87 },
+      { _id: "4", name: "YOLOv8", framework: "PyTorch", useCase: "Computer Vision", dataset: "COCO", description: "Real-time object detection.", image: YoloClean, purchased: 62 }
     ];
 
-    axios.get('http://localhost:5000/api/models')
+    api.get('/api/models')
       .then(res => {
         const fetchedData = Array.isArray(res.data) 
           ? res.data 
@@ -96,7 +60,6 @@ const AllModels = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-6 py-16 text-gray-900 dark:text-white transition-all duration-300">
-      {/* Header Section */}
       <div className="text-center mb-16 space-y-4">
         <h1 className="text-5xl md:text-6xl font-extrabold bg-linear-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent tracking-tight">
           Explore AI Models
@@ -106,7 +69,6 @@ const AllModels = () => {
         </p>
       </div>
 
-      {/* Interactive Search & Filter Control Station */}
       <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-md p-5 md:p-6 rounded-3xl shadow-xl shadow-gray-100 dark:shadow-none mb-14 flex flex-col md:flex-row gap-4 border border-gray-100 dark:border-gray-700">
         <div className="flex-1 relative">
           <input
@@ -130,7 +92,6 @@ const AllModels = () => {
         </select>
       </div>
 
-      {/* Dynamic Render Section */}
       {loading ? (
         <div className="flex justify-center items-center min-h-75">
           <LoadingSpinner />

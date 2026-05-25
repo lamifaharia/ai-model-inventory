@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import axios from 'axios';
+import api from '../api';
+import axios from 'axios'; 
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
@@ -40,7 +41,7 @@ const AddModel = () => {
 
     setLoading(true);
     try {
-      await axios.post('http://localhost:5000/api/models', {
+      await api.post('/api/models', {
         ...formData,
         image,
         createdBy: user?.email || 'unknown'

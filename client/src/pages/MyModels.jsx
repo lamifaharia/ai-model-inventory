@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import axios from 'axios';
+import api from '../api'; 
 import { useAuth } from '../context/AuthContext';
 import ModelCard from '../components/ModelCard';
 
@@ -9,8 +9,9 @@ const MyModels = () => {
 
   useEffect(() => {
     if (user) {
-      axios.get(`http://localhost:5000/api/models/my-models?email=${user.email}`)
-        .then(res => setModels(res.data));
+      api.get(`/api/models/my-models?email=${user.email}`)
+        .then(res => setModels(res.data))
+        .catch(err => console.error("Error fetching user models:", err));
     }
   }, [user]);
 
