@@ -18,7 +18,10 @@ const UpdateModel = () => {
         setFormData(res.data);
         setLoading(false);
       })
-      .catch(() => setLoading(false));
+      .catch((err) => {
+        console.error('Fetch error:', err);
+        setLoading(false);
+      });
   }, [id]);
 
   const handleSubmit = async (e) => {
@@ -28,7 +31,7 @@ const UpdateModel = () => {
       toast.success('✅ Model updated successfully!');
       navigate(`/models/${id}`);
     } catch (err) {
-      console.error(err); // Fixed line 31: 'err' variable is now safely used!
+      console.error('Update error:', err); 
       toast.error('Update failed');
     }
   };
@@ -49,7 +52,7 @@ const UpdateModel = () => {
             type="text" 
             value={formData.name || ''} 
             onChange={e => setFormData({...formData, name: e.target.value})} 
-            className="w-full px-6 py-5 text-lg border border-gray-300 dark:border-gray-600 rounded-2xl focus:outline-none focus:border-blue-500 text-gray-900 dark:text-white" 
+            className="w-full px-6 py-5 text-lg border border-gray-300 dark:border-gray-600 rounded-2xl focus:outline-none focus:border-blue-500" 
             required 
           />
         </div>
@@ -61,7 +64,7 @@ const UpdateModel = () => {
               type="text" 
               value={formData.framework || ''} 
               onChange={e => setFormData({...formData, framework: e.target.value})} 
-              className="w-full px-6 py-5 text-lg border border-gray-300 dark:border-gray-600 rounded-2xl text-gray-900 dark:text-white" 
+              className="w-full px-6 py-5 text-lg border border-gray-300 dark:border-gray-600 rounded-2xl" 
               required 
             />
           </div>
@@ -71,7 +74,7 @@ const UpdateModel = () => {
               type="text" 
               value={formData.useCase || ''} 
               onChange={e => setFormData({...formData, useCase: e.target.value})} 
-              className="w-full px-6 py-5 text-lg border border-gray-300 dark:border-gray-600 rounded-2xl text-gray-900 dark:text-white" 
+              className="w-full px-6 py-5 text-lg border border-gray-300 dark:border-gray-600 rounded-2xl" 
               required 
             />
           </div>
@@ -83,8 +86,8 @@ const UpdateModel = () => {
             type="text" 
             value={formData.dataset || ''} 
             onChange={e => setFormData({...formData, dataset: e.target.value})} 
-            className="w-full px-6 py-5 text-lg border border-gray-300 dark:border-gray-600 rounded-2xl text-gray-900 dark:text-white" 
-              required 
+            className="w-full px-6 py-5 text-lg border border-gray-300 dark:border-gray-600 rounded-2xl" 
+            required 
           />
         </div>
 
@@ -93,14 +96,14 @@ const UpdateModel = () => {
           <textarea 
             value={formData.description || ''} 
             onChange={e => setFormData({...formData, description: e.target.value})} 
-            className="w-full px-6 py-5 text-lg border border-gray-300 dark:border-gray-600 rounded-3xl h-40 text-gray-900 dark:text-white" 
+            className="w-full px-6 py-5 text-lg border border-gray-300 dark:border-gray-600 rounded-3xl h-40" 
             required 
           />
         </div>
 
         <button 
           type="submit" 
-          className="w-full bg-linear-to-r from-yellow-500 to-orange-500 text-white py-7 rounded-3xl text-2xl font-bold hover:brightness-110 transition-all cursor-pointer"
+          className="w-full bg-linear-to-r from-yellow-500 to-orange-500 text-white py-7 rounded-3xl text-2xl font-bold hover:brightness-110 transition-all"
         >
           Update Model
         </button>

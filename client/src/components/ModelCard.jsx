@@ -32,7 +32,7 @@ const ModelCard = ({ model }) => {
           </span>
           <Link 
             to={`/models/${model._id}`} 
-            className="bg-liner-to-r from-blue-600 to-indigo-600 text-white px-6 py-3 rounded-2xl font-semibold hover:from-blue-700 hover:to-indigo-700 transition-all"
+            className="bg-linear-to-r from-blue-600 to-indigo-600 text-white px-6 py-3 rounded-2xl font-semibold hover:from-blue-700 hover:to-indigo-700 transition-all"
           >
             View Details →
           </Link>

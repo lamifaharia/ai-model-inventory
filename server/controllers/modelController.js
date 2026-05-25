@@ -23,35 +23,31 @@ const getModelById = async (req, res) => {
 
 const addModel = async (req, res) => {
   try {
-    const { name, framework, useCase, dataset, description } = req.body;
+    const { name, framework, useCase, dataset, description, image, createdBy } = req.body;
     
-    const imageUrl = req.file ? req.file.path : "";
-
     const newModel = new Model({
       name,
       framework,
       useCase,
       dataset,
       description,
-      image: imageUrl, 
+      image, 
+      createdBy,
       purchased: 0
     });
 
     await newModel.save();
     res.status(201).json(newModel);
   } catch (err) {
+    console.error("Backend Save Error:", err);
     res.status(500).json({ message: err.message });
   }
 };
 
 const updateModel = async (req, res) => {
   try {
-    const { name, framework, useCase, dataset, description } = req.body;
-    let updateFields = { name, framework, useCase, dataset, description };
-
-    if (req.file) {
-      updateFields.image = req.file.path;
-    }
+    const { name, framework, useCase, dataset, description, image } = req.body;
+    let updateFields = { name, framework, useCase, dataset, description, image };
 
     const updatedModel = await Model.findByIdAndUpdate(
       req.params.id,

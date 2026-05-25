@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const upload = require('../config/multer'); // Imports the image upload middleware
+const upload = require('../config/multer'); // Keep this for routes that actually need file uploads (like update)
 const {
   getAllModels,
   getModelById,
@@ -15,9 +15,9 @@ router.get('/', getAllModels);
 router.get('/my-models', getMyModels);
 router.get('/:id', getModelById);
 
-router.post('/', upload.single('image'), addModel);
+router.post('/', addModel);
 
-router.put('/:id', upload.single('image'), updateModel);
+router.put('/:id', upload.single('image'), updateModel); // Keep multer here if you want to allow file updates
 router.delete('/:id', deleteModel);
 router.post('/:id/purchase', purchaseModel);
 

@@ -95,28 +95,33 @@ const AllModels = () => {
   const frameworks = ["TensorFlow", "PyTorch", "Keras", "Hugging Face", "ONNX"];
 
   return (
-    <div className="max-w-7xl mx-auto px-6 py-16 text-gray-900 dark:text-white">
-      <div className="text-center mb-16">
-        <h1 className="text-6xl font-bold bg-liner-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-4">
+    <div className="max-w-7xl mx-auto px-6 py-16 text-gray-900 dark:text-white transition-all duration-300">
+      {/* Header Section */}
+      <div className="text-center mb-16 space-y-4">
+        <h1 className="text-5xl md:text-6xl font-extrabold bg-linear-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent tracking-tight">
           Explore AI Models
         </h1>
-        <p className="text-xl text-gray-600 dark:text-gray-400">Discover, analyze, and manage cutting-edge AI models</p>
+        <p className="text-lg md:text-xl text-gray-500 dark:text-gray-400 max-w-2xl mx-auto font-medium">
+          Discover, analyze, and manage cutting-edge AI neural architectures.
+        </p>
       </div>
 
-      {/* Search & Filter Bar */}
-      <div className="bg-white dark:bg-gray-800 p-6 rounded-3xl shadow-lg mb-12 flex flex-col md:flex-row gap-4 border border-gray-100 dark:border-gray-700">
-        <input
-          type="text"
-          placeholder="Search models (e.g. BERT, Llama...)"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          className="flex-1 px-6 py-4 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-2xl focus:outline-none focus:border-blue-500 text-lg"
-        />
+      {/* Interactive Search & Filter Control Station */}
+      <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-md p-5 md:p-6 rounded-3xl shadow-xl shadow-gray-100 dark:shadow-none mb-14 flex flex-col md:flex-row gap-4 border border-gray-100 dark:border-gray-700">
+        <div className="flex-1 relative">
+          <input
+            type="text"
+            placeholder="Search models (e.g. BERT, Llama...)"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="input input-bordered w-full h-14 pl-6 pr-4 bg-gray-50/50 dark:bg-gray-900/50 border-gray-200 dark:border-gray-700 rounded-2xl focus:input-primary text-base font-medium transition-all"
+          />
+        </div>
         
         <select
           value={frameworkFilter}
           onChange={(e) => setFrameworkFilter(e.target.value)}
-          className="px-6 py-4 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-2xl focus:outline-none text-lg"
+          className="select select-bordered h-14 px-6 bg-gray-50/50 dark:bg-gray-900/50 border-gray-200 dark:border-gray-700 rounded-2xl focus:select-primary text-base font-semibold md:w-64 transition-all"
         >
           <option value="">All Frameworks</option>
           {frameworks.map(f => (
@@ -125,14 +130,38 @@ const AllModels = () => {
         </select>
       </div>
 
-      {loading ? <LoadingSpinner /> : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {/* Dynamic Render Section */}
+      {loading ? (
+        <div className="flex justify-center items-center min-h-75">
+          <LoadingSpinner />
+        </div>
+      ) : (
+        <div>
           {filteredModels.length > 0 ? (
-            filteredModels.map(model => <ModelCard key={model._id} model={model} />)
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {filteredModels.map(model => (
+                <div key={model._id} className="hover:-translate-y-2 transition-transform duration-300">
+                  <ModelCard model={model} />
+                </div>
+              ))}
+            </div>
           ) : (
-            <p className="col-span-3 text-center text-2xl py-20 text-gray-500 dark:text-gray-400">
-              No models found matching your criteria.
-            </p>
+            <div className="text-center py-24 bg-gray-50 dark:bg-gray-800/30 rounded-3xl border-2 border-dashed border-gray-200 dark:border-gray-800 max-w-2xl mx-auto px-6">
+              <p className="text-2xl font-bold text-gray-700 dark:text-gray-300 mb-2">
+                No Architectures Found
+              </p>
+              <p className="text-gray-400 text-base font-medium">
+                We couldn't find anything matching "{search}" or your selected framework filter. Try adjusting your parameters.
+              </p>
+              {(search || frameworkFilter) && (
+                <button 
+                  onClick={() => { setSearch(''); setFrameworkFilter(''); }}
+                  className="btn btn-outline btn-sm rounded-xl mt-6 font-semibold"
+                >
+                  Clear Filters
+                </button>
+              )}
+            </div>
           )}
         </div>
       )}

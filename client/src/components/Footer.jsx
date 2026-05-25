@@ -35,7 +35,6 @@ const Footer = () => {
 
           <div>
             <h4 className="font-semibold text-lg mb-6">Connect</h4>
-            <p className="text-gray-400 mb-6">Built with ❤️ for AI enthusiasts</p>
             <div className="flex gap-4">
               <a href="https://github.com" target="_blank" className="hover:text-blue-400 transition">GitHub</a>
             </div>

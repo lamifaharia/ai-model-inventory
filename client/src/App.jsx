@@ -25,14 +25,12 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
-            
             <Route path="/models" element={<AllModels />} />
             <Route path="/models/:id" element={<PrivateRoute><ModelDetails /></PrivateRoute>} />
             <Route path="/add-model" element={<PrivateRoute><AddModel /></PrivateRoute>} />
             <Route path="/update-model/:id" element={<PrivateRoute><UpdateModel /></PrivateRoute>} />
             <Route path="/my-models" element={<PrivateRoute><MyModels /></PrivateRoute>} />
             <Route path="/my-purchases" element={<PrivateRoute><MyPurchases /></PrivateRoute>} />
-            
             <Route path="*" element={<h1 className="text-center text-4xl mt-20">404 - Page Not Found</h1>} />
           </Routes>
           <Footer />

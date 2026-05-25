@@ -11,17 +11,15 @@ const MyPurchases = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Guard clause: Wait until the user's login state is loaded and available
     if (!user?.email) return;
 
-    // Fetch only the models purchased by this logged-in user's email
     axios.get(`http://localhost:5000/api/my-purchases?email=${user.email}`)
       .then(res => {
         setPurchasedModels(res.data);
         setLoading(false);
       })
       .catch((err) => {
-        console.error(err); // Keeps ESLint happy and logs the error safely
+        console.error(err); 
         toast.error('Failed to load purchased models');
         setLoading(false);
       });
