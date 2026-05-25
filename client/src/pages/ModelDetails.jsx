@@ -26,7 +26,7 @@ const ModelDetails = () => {
 
   const handlePurchase = async () => {
     try {
-      await axios.post('http://localhost:5000/api/purchase', { modelId: id, email: user.email });
+      await axios.post(`http://localhost:5000/api/models/${id}/purchase`, { email: user.email });
       toast.success('Purchase successful!');
     } catch (err) {
       console.error('Purchase error:', err);

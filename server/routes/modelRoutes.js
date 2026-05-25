@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const upload = require('../config/multer'); // Keep this for routes that actually need file uploads (like update)
+const upload = require('../config/multer');
 const {
   getAllModels,
   getModelById,
@@ -8,16 +8,17 @@ const {
   updateModel,
   deleteModel,
   purchaseModel,
-  getMyModels
+  getMyModels,
+  getMyPurchases 
 } = require('../controllers/modelController');
 
 router.get('/', getAllModels);
 router.get('/my-models', getMyModels);
+router.get('/my-purchases', getMyPurchases); 
 router.get('/:id', getModelById);
 
 router.post('/', addModel);
-
-router.put('/:id', upload.single('image'), updateModel); // Keep multer here if you want to allow file updates
+router.put('/:id', upload.single('image'), updateModel);
 router.delete('/:id', deleteModel);
 router.post('/:id/purchase', purchaseModel);
 

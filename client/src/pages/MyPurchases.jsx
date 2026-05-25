@@ -13,7 +13,7 @@ const MyPurchases = () => {
   useEffect(() => {
     if (!user?.email) return;
 
-    axios.get(`http://localhost:5000/api/my-purchases?email=${user.email}`)
+    axios.get(`http://localhost:5000/api/models/my-purchases?email=${user.email}`)
       .then(res => {
         setPurchasedModels(res.data);
         setLoading(false);

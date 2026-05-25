@@ -1,4 +1,5 @@
 const Model = require('../models/Models'); 
+const mongoose = require('mongoose'); // Added this for ID validation
 
 const getAllModels = async (req, res) => {
   try {
@@ -11,6 +12,10 @@ const getAllModels = async (req, res) => {
 
 const getModelById = async (req, res) => {
   try {
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+      return res.status(404).json({ message: "Invalid Model ID format" });
+    }
+
     const model = await Model.findById(req.params.id);
     if (!model) {
       return res.status(404).json({ message: "Model not found" });
@@ -101,6 +106,16 @@ const getMyModels = async (req, res) => {
   }
 };
 
+const getMyPurchases = async (req, res) => {
+  try {
+    const { email } = req.query;
+    const models = await Model.find({ purchasedBy: email });
+    res.status(200).json(models);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
 module.exports = {
   getAllModels,
   getModelById,
@@ -108,5 +123,6 @@ module.exports = {
   updateModel,
   deleteModel,
   purchaseModel,
-  getMyModels
+  getMyModels,
+  getMyPurchases 
 };
