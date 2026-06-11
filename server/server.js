@@ -15,7 +15,8 @@ app.use(cors({
     'http://localhost:5175',
     'http://localhost:5176',
     'http://localhost:5177',
-    process.env.FRONTEND_URL
+    'https://ai-model-inventory-d4yf.vercel.app'
+  
   ],
   credentials: true
 }));
