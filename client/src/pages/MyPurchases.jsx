@@ -1,61 +1,58 @@
 import { useEffect, useState } from 'react';
-import api from '../api'; 
+import { Link } from 'react-router-dom';
+import api from '../api';
 import { useAuth } from '../context/AuthContext';
 import ModelCard from '../components/ModelCard';
-import LoadingSpinner from '../components/LoadingSpinner';
-import toast from 'react-hot-toast';
+import SkeletonCard from '../components/SkeletonCard';
+import useTitle from '../hooks/useTitle';
 
 const MyPurchases = () => {
   const { user } = useAuth();
-  const [purchasedModels, setPurchasedModels] = useState([]);
+  const [models, setModels] = useState([]);
   const [loading, setLoading] = useState(true);
+  useTitle('My Purchases');
 
   useEffect(() => {
-    if (!user?.email) return;
-
-    api.get(`/api/models/my-purchases?email=${user.email}`)
-      .then(res => {
-        setPurchasedModels(res.data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error(err); 
-        toast.error('Failed to load purchased models');
-        setLoading(false);
-      });
+    if (!user) return;
+    api.get('/api/models/my-purchases')
+      .then(res => { setModels(res.data); setLoading(false); })
+      .catch(() => setLoading(false));
   }, [user]);
 
-  if (loading) return <LoadingSpinner />;
-
   return (
-    <div className="max-w-7xl mx-auto px-6 py-12 text-gray-900 dark:text-white">
-      <div className="flex justify-between items-center mb-12">
-        <h1 className="text-5xl font-bold">My Purchased Models</h1>
-        <p className="text-gray-500 dark:text-gray-400 text-lg">
-          Total Purchased: <span className="font-semibold text-green-600 dark:text-green-400">{purchasedModels.length}</span>
-        </p>
-      </div>
-
-      {purchasedModels.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {purchasedModels.map(model => (
-            <div key={model._id || model.id} className="relative group">
-              <ModelCard model={model} />
-              <div className="absolute top-4 right-4 bg-green-600 text-white text-sm px-4 py-1 rounded-full font-medium shadow-md">
-                Purchased
-              </div>
-            </div>
-          ))}
-        </div>
-      ) : (
-        <div className="text-center py-20 border border-dashed border-gray-200 dark:border-gray-700 rounded-2xl max-w-xl mx-auto bg-white dark:bg-gray-800 shadow-sm">
-          <div className="text-6xl mb-6">🛒</div>
-          <h3 className="text-3xl font-semibold mb-4">No Purchases Yet</h3>
-          <p className="text-gray-500 dark:text-gray-400 max-w-md mx-auto px-4">
-            You haven't purchased any models yet. Go to All Models and try purchasing some!
+    <div className="min-h-screen bg-white dark:bg-gray-950 py-12">
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="mb-10">
+          <h1 className="text-4xl font-extrabold text-gray-900 dark:text-white">My Purchases</h1>
+          <p className="text-gray-500 dark:text-gray-400 mt-1">
+            {models.length} model{models.length !== 1 ? 's' : ''} purchased
           </p>
         </div>
-      )}
+
+        {loading ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {Array(4).fill(0).map((_, i) => <SkeletonCard key={i} />)}
+          </div>
+        ) : models.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {models.map(m => (
+              <div key={m._id} className="relative">
+                <ModelCard model={m} />
+                <div className="absolute top-3 right-3 bg-green-500 text-white text-xs px-2 py-1 rounded-full font-bold z-10">
+                  Purchased
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-24 bg-gray-50 dark:bg-gray-900 rounded-3xl border-2 border-dashed border-gray-200 dark:border-gray-800">
+            <div className="text-5xl mb-5">🛒</div>
+            <p className="text-2xl font-bold text-gray-500 mb-3">No purchases yet</p>
+            <p className="text-gray-400 mb-6">Browse the marketplace and get your first AI model.</p>
+            <Link to="/models" className="btn btn-primary rounded-xl">Explore Models</Link>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

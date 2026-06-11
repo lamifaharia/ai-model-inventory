@@ -1,14 +1,17 @@
-import { Link } from 'react-router-dom';
-import { Star, ShoppingCart } from 'lucide-react';
+import { Link } from "react-router-dom";
+import { Star, ShoppingCart } from "lucide-react";
 
 const ModelCard = ({ model }) => {
   return (
     <div className="group bg-white dark:bg-gray-800 rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 border border-gray-100 dark:border-gray-700 flex flex-col h-full">
-      
       {/* Image */}
       <div className="relative h-48 overflow-hidden flex-shrink-0">
         <img
-          src={model.image || "https://placehold.co/600x400/1e3a8a/ffffff?text=AI+Model"}
+          src={
+            model.image && model.image.startsWith("http")
+              ? model.image
+              : `https://placehold.co/600x400/1e3a8a/ffffff?text=${encodeURIComponent(model.name || "AI+Model")}`
+          }
           alt={model.name}
           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
           loading="lazy"
@@ -55,7 +58,7 @@ const ModelCard = ({ model }) => {
               <ShoppingCart size={12} /> {model.purchased || 0} purchased
             </span>
             <span className="text-xs text-yellow-500 flex items-center gap-1">
-              <Star size={12} fill="currentColor" /> {model.rating || '0.0'}
+              <Star size={12} fill="currentColor" /> {model.rating || "0.0"}
             </span>
           </div>
           <Link
